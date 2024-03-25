@@ -1,12 +1,12 @@
-import { Stack } from "expo-router"
+import { Stack } from "expo-router";
 import { useState } from "react";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native"
+import { FlatList, StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import ButtomsDivider from "~/src/components/buttomsDivider";
 import { EmptyList } from "~/src/components/empty-list";
-import { TitleOrSubtitle } from "~/src/components/title_subtitle"
-import { CardUser } from "./card-user";
-import { useDispatch, useSelector } from "react-redux";
+import { TitleOrSubtitle } from "~/src/components/title_subtitle";
 import { deleteData } from "~/src/redux/slice";
+import { CardUser } from "./card-user";
 
 export const ShowRegister = () => {
     const [type, setType] = useState('fisica');
@@ -24,6 +24,7 @@ export const ShowRegister = () => {
         <View style={styles.container}>
             <Stack.Screen options={{ headerTitle: "Lista de cadastro", headerTitleAlign: "center", headerShown: true }} />
             <TitleOrSubtitle subtitle="Selecione o tipo para filtragem" />
+
             <ButtomsDivider onChangeForm={onChange} />
             <FlatList
                 data={selector}
@@ -34,6 +35,7 @@ export const ShowRegister = () => {
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={() => <EmptyList />}
             />
+
         </View>
     )
 }

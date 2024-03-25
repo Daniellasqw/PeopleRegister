@@ -1,16 +1,12 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Text } from 'react-native-paper'
-
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { OnchangeType } from "~/src/dtos";
 
 
-export const CustomNavigation = ({onChangeScreen,screen}:OnchangeType) => {
+export const CustomNavigation = ({ onChangeScreen, screen }: OnchangeType) => {
 
-
-    const setInfo=(name:string)=>{
-        if(onChangeScreen){
+    const setInfo = (name: string) => {
+        if (onChangeScreen) {
             onChangeScreen(name)
         }
     }
@@ -23,7 +19,7 @@ export const CustomNavigation = ({onChangeScreen,screen}:OnchangeType) => {
                 ]}
                 onPress={() => setInfo('show')}
             >
-                <Ionicons name="create-outline" size={24} color={screen === 'show'?"#fff":"#000"} />
+                <Ionicons name="create-outline" size={24} color={screen === 'show' ? "#fff" : "#000"} />
             </TouchableOpacity>
             <TouchableOpacity
                 style={[
@@ -32,13 +28,10 @@ export const CustomNavigation = ({onChangeScreen,screen}:OnchangeType) => {
                 ]}
                 onPress={() => setInfo('add')}
             >
-                <Ionicons name="add" size={24} color={screen === 'add'?"#fff":"#000"} />
+                <Ionicons name="add" size={24} color={screen === 'add' ? "#fff" : "#000"} />
             </TouchableOpacity>
-           
-            </View>
-           
+        </View>
 
-      
     );
 };
 
@@ -47,9 +40,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor:"#e7e8ed",
-        borderTopEndRadius:20,
-        borderTopStartRadius:20
+        backgroundColor: "#e7e8ed",
+        borderTopEndRadius: 20,
+        borderTopStartRadius: 20
     },
     navItem: {
         width: 50,
@@ -63,8 +56,8 @@ const styles = StyleSheet.create({
         bottom: 10,
         borderRadius: 40,
         backgroundColor: '#7d7f9e',
-        borderLeftWidth:5,
-        borderColor:"#5c5e75",
-        
+        borderLeftWidth: 5,
+        borderColor: "#5c5e75",
+
     },
 });

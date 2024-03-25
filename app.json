@@ -39,7 +39,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.daniellaa.PeopleRegister"
+      "package": "com.daniellaa.PeopleRegister",
+      "permissions": [
+        "CAMERA"
+      ]
     },
     "extra": {
       "router": {

@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Text, TextInput, Button } from "react-native-paper";
-import { View, StyleSheet, ScrollView } from "react-native";
-import { ButtomNextCustom } from "./buttom-next-custom";
-import { ButtomBackCustom } from "./buttom-back-custom";
-import { addCPFMask, addCnpjMask, addPhoneMask } from "~/utils/masks";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Button, Text, TextInput } from "react-native-paper";
 import { useDispatch } from 'react-redux';
+import { addCPFMask, addCnpjMask, addPhoneMask } from "~/utils/masks";
 import { editData, setData } from "../redux/slice";
+import { ButtomBackCustom } from "./buttom-back-custom";
+import { ButtomNextCustom } from "./buttom-next-custom";
+import { ImagePickerScreen } from "./image-picker";
 import { ModalCustom } from "./modal-custom";
 
 interface Form1Data {
-    id:number;
+    id: number;
     reasonSocial: string;
     fantasyName: string;
     cnpj: string;
@@ -20,49 +21,49 @@ interface Form1Data {
     responsible: string;
     responsibleCPF: string;
     responsiblePhoneNumber: string;
-    municipalRegistration:string;
+    municipalRegistration: string;
 }
 
 interface Errors {
-        reasonSocial:string;
-        fantasyName:string;
-        cnpj:string;
-        stateRegistration:string;
-        address:string;
-        email:string;
-        phoneNumber:string;
-        responsible:string;
-        responsibleCPF:string;
-        responsiblePhoneNumber:string;
-        municipalRegistration:string;
+    reasonSocial: string;
+    fantasyName: string;
+    cnpj: string;
+    stateRegistration: string;
+    address: string;
+    email: string;
+    phoneNumber: string;
+    responsible: string;
+    responsibleCPF: string;
+    responsiblePhoneNumber: string;
+    municipalRegistration: string;
 }
-interface formCompany{
-    replaceScreen?:()=>void,
-    item?:Form1Data
+interface formCompany {
+    replaceScreen?: () => void,
+    item?: Form1Data
 }
 
-export const FormCompany = ({replaceScreen,item}:formCompany) => {
+export const FormCompany = ({ replaceScreen, item }: formCompany) => {
     const [stack, setStack] = useState(1);
     const dispatch = useDispatch()
     const [modalVisible, setModalVisible] = useState(false)
 
     const [form1Data, setForm1Data] = useState<Form1Data>({
-        id:item?.id?? 0,
-        reasonSocial:item?.reasonSocial?? "",
-        fantasyName:item?.fantasyName?? "",
-        cnpj:item?.cnpj?? "",
-        stateRegistration:item?.stateRegistration?? "",
-        address: item?.address?? "",
-        email: item?.email??"",
-        phoneNumber:item?.phoneNumber?? "",
-        responsible: item?.reasonSocial??"",
-        responsibleCPF: item?.responsibleCPF??"",
-        responsiblePhoneNumber: item?.responsiblePhoneNumber??"",
-        municipalRegistration:item?.municipalRegistration??""
+        id: item?.id ?? 0,
+        reasonSocial: item?.reasonSocial ?? "",
+        fantasyName: item?.fantasyName ?? "",
+        cnpj: item?.cnpj ?? "",
+        stateRegistration: item?.stateRegistration ?? "",
+        address: item?.address ?? "",
+        email: item?.email ?? "",
+        phoneNumber: item?.phoneNumber ?? "",
+        responsible: item?.reasonSocial ?? "",
+        responsibleCPF: item?.responsibleCPF ?? "",
+        responsiblePhoneNumber: item?.responsiblePhoneNumber ?? "",
+        municipalRegistration: item?.municipalRegistration ?? ""
     });
 
     const [errors, setErrors] = useState<Errors>({
-        
+
         reasonSocial: "",
         fantasyName: "",
         cnpj: "",
@@ -73,10 +74,10 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
         responsible: "",
         responsibleCPF: "",
         responsiblePhoneNumber: "",
-        municipalRegistration:""
+        municipalRegistration: ""
 
     });
-    const handleNextClick1 = (value:number) => {
+    const handleNextClick1 = (value: number) => {
         const newErrors = { ...errors };
         let hasError = false;
 
@@ -87,13 +88,13 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
             newErrors.reasonSocial = "";
         }
 
-        if (!form1Data.fantasyName.trim() ) {
+        if (!form1Data.fantasyName.trim()) {
             newErrors.fantasyName = "* Campo Nome Fantasia Obrigatório";
             hasError = true;
         } else {
             newErrors.fantasyName = "";
         }
-        if (!form1Data.cnpj.trim() ||form1Data.cnpj.length < 14) {
+        if (!form1Data.cnpj.trim() || form1Data.cnpj.length < 14) {
             newErrors.cnpj = "*Campo cnpj obrigatório";
             hasError = true;
         }
@@ -103,14 +104,14 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
         if (!hasError) {
             setStack(value);
         }
-    
-           
+
+
     };
 
-    const handleNextClick2 = (value:number) => {
+    const handleNextClick2 = (value: number) => {
         const newErrors = { ...errors };
         let hasError = false;
-          if (!form1Data.address.trim()) {
+        if (!form1Data.address.trim()) {
             newErrors.address = "* Campo Endereço obrigatório";
             hasError = true;
         } else {
@@ -127,7 +128,7 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
             newErrors.email = "";
         }
 
-        if (!form1Data.phoneNumber.trim()||form1Data.phoneNumber.length < 15) {
+        if (!form1Data.phoneNumber.trim() || form1Data.phoneNumber.length < 15) {
             newErrors.phoneNumber = "*Campo Telefone obrigatório";
             hasError = true;
         } else {
@@ -139,7 +140,7 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
             setStack(value);
         }
     }
-    const handleNextClick3 = (value:number) => {
+    const handleNextClick3 = (value: number) => {
         const newErrors = { ...errors };
         let hasError = false;
 
@@ -150,14 +151,14 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
             newErrors.responsible = "";
         }
 
-       
-        if (!form1Data.responsibleCPF.trim() ||form1Data.responsibleCPF.length < 11) {
+
+        if (!form1Data.responsibleCPF.trim() || form1Data.responsibleCPF.length < 11) {
             newErrors.cnpj = "*Campo CPF do responsável obrigatório";
             hasError = true;
-        }else{
+        } else {
             newErrors.responsibleCPF = "";
         }
-        if (!form1Data.responsiblePhoneNumber.trim()||form1Data.responsiblePhoneNumber.length < 15) {
+        if (!form1Data.responsiblePhoneNumber.trim() || form1Data.responsiblePhoneNumber.length < 15) {
             newErrors.responsiblePhoneNumber = "*Campo Telefone do responsável obrigatório";
             hasError = true;
         } else {
@@ -169,9 +170,9 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
         if (!hasError) {
             setStack(value);
         }
-    
+
     }
-    const handleBackClick = (value:number) => {
+    const handleBackClick = (value: number) => {
         setStack(value);
     }
 
@@ -188,9 +189,9 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
     const isValidEmail = (email: string) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
-    
+
     const stackForm1 = () => {
-        const { municipalRegistration,reasonSocial, fantasyName, cnpj, stateRegistration } = form1Data;
+        const { municipalRegistration, reasonSocial, fantasyName, cnpj, stateRegistration } = form1Data;
         return (
             <View>
                 {errors.reasonSocial ? <Text style={styles.error}>{errors.reasonSocial}</Text> : null}
@@ -218,7 +219,7 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
                     value={cnpj}
                     keyboardType="numeric"
                     maxLength={18}
-                    
+
                 />
                 <TextInput
                     style={styles.input}
@@ -229,7 +230,7 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
                     maxLength={9}
                     value={stateRegistration}
                 />
-                 <TextInput
+                <TextInput
                     style={styles.input}
                     onChangeText={(text) => handleInputChange("municipalRegistration", text)}
                     label="Inscrição Municipal"
@@ -242,14 +243,14 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
             </View>
         );
     };
-    
+
 
     const stackForm2 = () => {
         const { address, email, phoneNumber } = form1Data;
         const isEmailValid = isValidEmail(email);
         return (
             <View>
-                 {errors.address ? <Text style={styles.error}>{errors.address}</Text> : null}
+                {errors.address ? <Text style={styles.error}>{errors.address}</Text> : null}
                 <TextInput
                     style={styles.input}
                     onChangeText={(text) => handleInputChange("address", text)}
@@ -257,7 +258,7 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
                     mode="outlined"
                     value={address}
                 />
-                 {errors.email ? <Text style={styles.error}>{errors.email}</Text> : null}
+                {errors.email ? <Text style={styles.error}>{errors.email}</Text> : null}
                 {email.length > 0 && !isEmailValid && <Text style={styles.error}>E-mail inválido</Text>}
                 <TextInput
                     style={styles.input}
@@ -276,7 +277,7 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
                     keyboardType="numeric"
                     maxLength={15}
                 />
-               
+
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <ButtomBackCustom value={stack} setNext={handleBackClick} />
                     <ButtomNextCustom value={stack} setNext={handleNextClick2} />
@@ -287,10 +288,10 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
 
     const stackForm3 = () => {
         const { responsible, responsibleCPF, responsiblePhoneNumber } = form1Data;
-       
+
         return (
             <View>
-                 {errors.responsible ? <Text style={styles.error}>{errors.responsible}</Text> : null}
+                {errors.responsible ? <Text style={styles.error}>{errors.responsible}</Text> : null}
                 <TextInput
                     style={styles.input}
                     onChangeText={(text) => handleInputChange("responsible", text)}
@@ -307,7 +308,7 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
                     value={responsibleCPF}
                     keyboardType="numeric"
                     maxLength={14}
-                  
+
                 />
                 {errors.responsiblePhoneNumber ? <Text style={styles.error}>{errors.responsiblePhoneNumber}</Text> : null}
                 <TextInput
@@ -319,6 +320,7 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
                     keyboardType="numeric"
                     maxLength={15}
                 />
+                <ImagePickerScreen title="Anexar RG do responsável legal" />
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <ButtomBackCustom value={stack} setNext={handleBackClick} />
                     <ButtomNextCustom value={stack} setNext={handleNextClick3} />
@@ -331,46 +333,43 @@ export const FormCompany = ({replaceScreen,item}:formCompany) => {
         return (
             <View>
                 <Text style={styles.textEnd}>Pronto! Chegamos no final, agora é só anexar os documentos necessários.</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => handleInputChange("responsible", text)}
-                    label="Responsável Legal"
-                    mode="outlined"
-                    value={form1Data.responsible}
-                />
+
+                <ImagePickerScreen />
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+
                     <ButtomBackCustom value={stack} setNext={handleBackClick} />
                     <Button icon="check" textColor="#fff" style={{ borderRadius: 8 }} buttonColor={"#8fc57b"} onPress={submitForm}>Salvar</Button>
+
                 </View>
             </View>
         );
     };
 
-    const submitForm = ()=>{
-        if(item?.id){
-            const data = {...form1Data,id:item?.id}
-           dispatch(editData(data))
+    const submitForm = () => {
+        if (item?.id) {
+            const data = { ...form1Data, id: item?.id }
+            dispatch(editData(data))
             setModalVisible(true)
-        }else{
+        } else {
             const id = Math.floor(Math.random() * 1999);
-            const data = {...form1Data,id:id}
-           dispatch(setData(data))
+            const data = { ...form1Data, id: id }
+            dispatch(setData(data))
             setModalVisible(true)
         }
-       
+
     }
     return (
         <View style={styles.container}>
             <ScrollView style={{ height: "80%" }}
-             showsVerticalScrollIndicator={false} 
-             showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
             >
                 {stack === 1 && stackForm1()}
                 {stack === 2 && stackForm2()}
                 {stack === 3 && stackForm3()}
                 {stack === 4 && stackForm4()}
             </ScrollView>
-            <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle="Cadastro realizado com sucesso." titleButton="Entendi"/>
+            <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle="Cadastro realizado com sucesso." titleButton="Entendi" />
         </View>
     );
 };
@@ -386,13 +385,13 @@ const styles = StyleSheet.create({
         height: 40,
         marginBottom: 30,
         paddingHorizontal: 10,
-        backgroundColor:"#fff",
+        backgroundColor: "#fff",
     },
     error: {
         color: "red",
     },
-    textEnd:{
-        marginBottom:20
+    textEnd: {
+        marginBottom: 20
     }
 });
 
