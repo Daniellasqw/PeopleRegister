@@ -13,9 +13,6 @@ export const Edit = () => {
   console.log(item);
   return (
     <View style={styles.container}>
-      
-     
-        
       <Stack.Screen options={{ headerTitle: "Editar Usuário", headerTitleAlign: "center", headerShown: true }} />
       {item.type === 'fisica' ? <FormPhysicalPerson replaceScreen={()=>router.back()} item={item}/> : <FormCompany replaceScreen={()=>router.back()} item={item}/>}
      
