@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { addCPFMask, addPhoneMask } from "~/utils/masks";
-import { FormData } from "../dtos";
+import { Doc, FormData } from "../dtos";
 import { editData, setData } from "../redux/slice";
 import { ButtomBackCustom } from "./buttom-back-custom";
 import { ButtomNextCustom } from "./buttom-next-custom";
@@ -15,10 +15,10 @@ interface formPerson {
 }
 
 export const FormPhysicalPerson = ({ replaceScreen, item }: formPerson) => {
+    console.log("ITEM EDIT", item)
     const [stack, setStack] = useState(1);
     const dispatch = useDispatch()
     const [modalVisible, setModalVisible] = useState(false);
-    console.log("item FORM", item)
 
     const [form1Data, setForm1Data] = useState<FormData>({
         name: item?.name ?? "",
@@ -26,16 +26,17 @@ export const FormPhysicalPerson = ({ replaceScreen, item }: formPerson) => {
         address: item?.address ?? "",
         email: item?.email ?? "",
         phoneNumber: item?.phoneNumber ?? "",
-        type: "fisica"
-        //documentos:[]
+        type: "fisica",
+        documentoPerson: item?.documentoPerson ?? null
     });
 
     const [errors, setErrors] = useState<FormData>({
-        nome: "",
+        name: "",
         cpf: "",
         address: "",
         email: "",
         phoneNumber: "",
+        documentoPerson: ""
     });
 
     const messageRequired = "* Campo obrigatório";
@@ -90,19 +91,35 @@ export const FormPhysicalPerson = ({ replaceScreen, item }: formPerson) => {
     };
 
     const submitForm = () => {
-        if (item?.id) {
-            const data = { ...form1Data, id: item?.id }
-            dispatch(editData(data))
-            console.log(item?.id)
-            setModalVisible(true)
+        const newErrors = { ...errors };
+        let hasError = false;
+        if (form1Data.documentoPerson === null) {
+            newErrors.documentoPerson = "*Anexo obrigatório";
+            hasError = true;
+        } else {
+            newErrors.documentoPerson = "";
         }
-        else {
-            const id = Math.floor(Math.random() * 1999);
-            const data = { ...form1Data, id: id }
-            dispatch(setData(data))
-            console.log(data)
-            setModalVisible(true)
+        setErrors(newErrors);
+
+        if (!hasError) {
+
+            if (item?.id) {
+                const data = { ...form1Data, id: item?.id }
+                dispatch(editData(data))
+                console.log(item?.id)
+                setModalVisible(true)
+            }
+            else {
+                const id = Math.floor(Math.random() * 1999);
+                const data = { ...form1Data, id: id }
+                dispatch(setData(data))
+                console.log(data)
+                setModalVisible(true)
+            }
+
         }
+
+
 
     }
     const handleInputChange = (fieldName: keyof FormData, value: string) => {
@@ -119,6 +136,10 @@ export const FormPhysicalPerson = ({ replaceScreen, item }: formPerson) => {
     const isValidEmail = (email: string) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
+    const setFileDocuments = (value: Doc | null) => {
+        const newForm1Data = { ...form1Data, ["documentoPerson"]: value };
+        setForm1Data(newForm1Data);
+    }
 
     const stackForm1 = () => {
         return (
@@ -180,20 +201,18 @@ export const FormPhysicalPerson = ({ replaceScreen, item }: formPerson) => {
     const stackForm2 = () => {
         return (
             <View>
-                <Text>
+                <Text style={styles.titleEnd}>
                     Pronto! Chegamos no final, agora é só anexar os documentos
                     necessários.
                 </Text>
-
-                <ImagePickerScreen title="Anexar RG" />
+                {errors.documentoPerson ? <Text style={styles.error}>{errors.documentoPerson}</Text> : null}
+                <ImagePickerScreen title="Anexar RG" insertFile={setFileDocuments} fileParams={form1Data.documentoPerson} />
                 <View
                     style={{
                         flexDirection: "row",
                         justifyContent: "space-between",
                     }}
                 >
-
-
                     <ButtomBackCustom value={stack} setNext={handleNextClick} />
                     <Button
                         icon="check"
@@ -216,7 +235,7 @@ export const FormPhysicalPerson = ({ replaceScreen, item }: formPerson) => {
             >
                 {stack === 1 && stackForm1()}
                 {stack === 2 && stackForm2()}
-                <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle="Cadastro realizado com sucesso." titleButton="Entendi" />
+                <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle={form1Data.documentoPerson ? "Cadastro editado com sucesso." : "Cadastro realizado com sucesso."} titleButton="Entendi" onCloseModal={() => setModalVisible(!modalVisible)} />
             </ScrollView>
         </View>
     );
@@ -240,4 +259,7 @@ const styles = StyleSheet.create({
         color: "red",
 
     },
+    titleEnd: {
+        marginBottom: 10
+    }
 });

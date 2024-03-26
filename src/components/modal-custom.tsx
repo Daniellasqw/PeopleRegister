@@ -5,12 +5,14 @@ interface ModalCustom {
     visible: boolean;
     onChange?: () => void;
     titleButton?: string;
-    title?: string;
+    title?: string | null;
     subtitle?: string;
     document?: string;
+    onCloseModal: () => void;
+    downloadFileButton?: () => void;
 }
 
-export const ModalCustom = ({ onChange, visible, titleButton, title, subtitle, document }: ModalCustom) => {
+export const ModalCustom = ({ onChange, visible, titleButton, title, subtitle, document, onCloseModal, downloadFileButton }: ModalCustom) => {
 
     return (
         <View style={styles.container}>
@@ -18,17 +20,24 @@ export const ModalCustom = ({ onChange, visible, titleButton, title, subtitle, d
                 animationType="slide"
                 transparent={true}
                 visible={visible}
-                onRequestClose={onChange}
+                onRequestClose={onCloseModal}
             >
                 <View style={styles.modalContainer}>
                     <View style={document ? [styles.modalContent, { height: Dimensions.get("screen").height / 1.5, }] : styles.modalContent}>
+                        {title ? <Text style={styles.modalTextTitle}>{title ? title : "Sucesso!"}</Text> : <Text style={styles.modalTextTitle}>{null}</Text>}
+                        {subtitle && <Text style={styles.modalTextSubtitle}>{subtitle ? subtitle : "Usuário cadastrado com sucesso!"}</Text>}
 
-                        <Text style={styles.modalTextTitle}>{title ? title : "Sucesso!"}</Text>
-                        <Text style={styles.modalTextSubtitle}>{subtitle ? subtitle : "Usuário cadastrado com sucesso!"}</Text>
                         {document && <Image source={{ uri: document }} style={styles.document} />}
                         <View style={styles.buttonContainer}>
+                            {
+                                downloadFileButton && (
+                                    <TouchableOpacity onPress={downloadFileButton} style={styles.button}>
+                                        <Text style={styles.modalTextButton}>{titleButton ? titleButton : 'Baixar arquivo'}</Text>
+                                    </TouchableOpacity>
+                                )
+                            }
                             <TouchableOpacity onPress={onChange} style={styles.button}>
-                                <Text style={styles.modalTextButton}>{titleButton ? titleButton : 'Fechar modal'}</Text>
+                                <Text style={styles.modalTextButton}>{titleButton ? titleButton : 'Fechar'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

@@ -8,7 +8,12 @@ export interface ItypeTitles {
 export interface OnchangeType {
   onChangeScreen?: (name: string) => void;
   onChangeForm?: (value: string) => void;
-  screen?:string;
+  screen?: string;
+}
+export interface Doc {
+  id: number;
+  uri: string;
+  fileName: string;
 }
 
 export interface FormData {
@@ -26,6 +31,9 @@ export interface FormData {
   responsiblePhoneNumber?: string;
   type?: string;
   cpf?: string;
+  documentoPerson?: Doc | null | string;
+  data?: any
+
 }
 
 export interface ButtomCustomNext {

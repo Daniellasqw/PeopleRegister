@@ -2,6 +2,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { useSelector } from "react-redux";
+import { ShowImagePicker } from "~/src/components/show-image-picker.";
 import { TitleOrSubtitle } from "~/src/components/title_subtitle";
 
 export const Details = () => {
@@ -38,6 +39,9 @@ export const Details = () => {
         {item.responsibleCPF && <TitleOrSubtitle title="CPF - Representante Legal" subtitle={item.responsibleCPF} sizetitle={12} sizeSubtitle={14} />}
         <Divider />
         {item.responsiblePhoneNumber && <TitleOrSubtitle title="Telefone - Representante Legal" subtitle={item.responsiblePhoneNumber} sizetitle={12} sizeSubtitle={14} />}
+        {item.cpf && <ShowImagePicker file={item.documentoPerson} title="Visualizar RG" />}
+        {item.responsibleCPF && <ShowImagePicker file={item.documentResponsable} title="Visualizar RG Responsável Legal" />}
+        {item.documentoCompany && <ShowImagePicker file={item.documentoCompany} title="Visualizar CNPJ empresa" />}
 
       </ScrollView>
     </View>

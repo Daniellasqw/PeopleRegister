@@ -1,14 +1,27 @@
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { Doc } from '../dtos';
 import { ModalCustom } from './modal-custom';
 
-export const ImagePickerScreen = ({ title }: { title?: String }) => {
+interface ImagePicker {
+    title?: String,
+    insertFile: (file: Doc | null) => void;
+    fileParams?: Doc | null;
+}
+
+export const ImagePickerScreen = ({ title, insertFile, fileParams }: ImagePicker) => {
     const [file, setFile] = useState<{ uri: string; fileName: string, id: number } | null>(null);
     const [visibleModal, setVisibleModal] = useState(false);
     const [visibleModalDelete, setVisibleModalDelete] = useState(false);
+    useEffect(() => {
+        if (fileParams) {
+            setFile(fileParams);
+        }
+    }, [])
+
 
     const handleError = (message: string) => { };
     const pickImage = useCallback(async () => {
@@ -29,11 +42,13 @@ export const ImagePickerScreen = ({ title }: { title?: String }) => {
             const parts = uri.split('/');
             const fileName = parts[parts.length - 1];
             const id = Math.floor(Math.random() * 1999)
-            setFile({
+            const data = {
                 uri: uri,
                 fileName: fileName,
                 id: id
-            })
+            }
+            setFile(data)
+            insertFile(data)
 
 
 
@@ -60,11 +75,13 @@ export const ImagePickerScreen = ({ title }: { title?: String }) => {
             const parts = uri.split('/');
             const fileName = parts[parts.length - 1];
             const id = Math.floor(Math.random() * 1999)
-            setFile({
+            const data = {
                 uri: uri,
                 fileName: fileName,
                 id: id
-            })
+            }
+            setFile(data)
+            insertFile(data)
 
 
 
@@ -79,10 +96,11 @@ export const ImagePickerScreen = ({ title }: { title?: String }) => {
     const deletFile = () => {
         setVisibleModalDelete(!visibleModalDelete)
         setFile(null);
+        insertFile(null);
     }
 
     return (
-        <View style={styles.container}>
+        <View style={file ? [styles.container, styles.hasFile] : styles.container}>
             <TouchableOpacity style={styles.Button} onPress={showImageModal} disabled={file?.fileName ? false : true}>
                 <Text style={styles.titlePhoto}>{file?.fileName ?? title ?? "Imagem documento"}</Text>
             </TouchableOpacity>
@@ -97,8 +115,8 @@ export const ImagePickerScreen = ({ title }: { title?: String }) => {
                     <Text style={styles.subtitleButton}>{file?.fileName ? "Excluir" : "Tirar foto"}</Text>
                 </TouchableOpacity>
             </View>
-            <ModalCustom visible={visibleModal} onChange={() => setVisibleModal(!visibleModal)} document={file?.uri ?? ""} />
-            <ModalCustom visible={visibleModalDelete} onChange={deletFile} title='Atenção' subtitle='Realmente deseja excluir o arquivo?' titleButton='Excluir' />
+            <ModalCustom visible={visibleModal} onChange={() => setVisibleModal(!visibleModal)} document={file?.uri ?? ""} title={undefined} subtitle={undefined} onCloseModal={() => setVisibleModal(!visibleModal)} />
+            <ModalCustom visible={visibleModalDelete} onChange={deletFile} title='Atenção' subtitle='Realmente deseja excluir o arquivo?' titleButton='Excluir' onCloseModal={() => setVisibleModalDelete(!visibleModalDelete)} />
         </View>
     );
 };
@@ -111,7 +129,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 8,
         borderStyle: "dashed",
-        borderColor: "grey", padding: 15
+        borderColor: "grey",
+        padding: 15
+    },
+    hasFile: {
+        borderStyle: "solid",
+        borderColor: "green",
     },
     titlePhoto: {
         fontFamily: "Raleway",

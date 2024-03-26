@@ -3,11 +3,14 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useDispatch } from 'react-redux';
 import { addCPFMask, addCnpjMask, addPhoneMask } from "~/utils/masks";
+import { Doc } from "../dtos";
 import { editData, setData } from "../redux/slice";
 import { ButtomBackCustom } from "./buttom-back-custom";
 import { ButtomNextCustom } from "./buttom-next-custom";
 import { ImagePickerScreen } from "./image-picker";
 import { ModalCustom } from "./modal-custom";
+
+
 
 interface Form1Data {
     id: number;
@@ -22,6 +25,9 @@ interface Form1Data {
     responsibleCPF: string;
     responsiblePhoneNumber: string;
     municipalRegistration: string;
+    documentoCompany: Doc | null;
+    documentResponsable: Doc | null;
+    type: "juridica";
 }
 
 interface Errors {
@@ -36,6 +42,9 @@ interface Errors {
     responsibleCPF: string;
     responsiblePhoneNumber: string;
     municipalRegistration: string;
+    documentResponsable: Doc | null | string;
+    documentoCompany?: Doc | null | string;
+
 }
 interface formCompany {
     replaceScreen?: () => void,
@@ -59,7 +68,10 @@ export const FormCompany = ({ replaceScreen, item }: formCompany) => {
         responsible: item?.reasonSocial ?? "",
         responsibleCPF: item?.responsibleCPF ?? "",
         responsiblePhoneNumber: item?.responsiblePhoneNumber ?? "",
-        municipalRegistration: item?.municipalRegistration ?? ""
+        municipalRegistration: item?.municipalRegistration ?? "",
+        documentoCompany: item?.documentoCompany ?? null,
+        documentResponsable: item?.documentResponsable ?? null,
+        type: "juridica",
     });
 
     const [errors, setErrors] = useState<Errors>({
@@ -74,9 +86,21 @@ export const FormCompany = ({ replaceScreen, item }: formCompany) => {
         responsible: "",
         responsibleCPF: "",
         responsiblePhoneNumber: "",
-        municipalRegistration: ""
+        municipalRegistration: "",
+        documentoCompany: "",
+        documentResponsable: "",
+
 
     });
+
+    const setFileDocumentsCompany = (value: Doc | null) => {
+        const newForm1Data = { ...form1Data, ["documentoCompany"]: value };
+        setForm1Data(newForm1Data);
+    }
+    const setFileDocumentsResponse = (value: Doc | null) => {
+        const newForm1Data = { ...form1Data, ["documentResponsable"]: value };
+        setForm1Data(newForm1Data);
+    }
     const handleNextClick1 = (value: number) => {
         const newErrors = { ...errors };
         let hasError = false;
@@ -149,6 +173,12 @@ export const FormCompany = ({ replaceScreen, item }: formCompany) => {
             hasError = true;
         } else {
             newErrors.responsible = "";
+        }
+        if (form1Data.documentResponsable === null) {
+            newErrors.documentResponsable = "*Anexo RG obrigatório";
+            hasError = true;
+        } else {
+            newErrors.documentResponsable = "";
         }
 
 
@@ -320,7 +350,8 @@ export const FormCompany = ({ replaceScreen, item }: formCompany) => {
                     keyboardType="numeric"
                     maxLength={15}
                 />
-                <ImagePickerScreen title="Anexar RG do responsável legal" />
+                {errors.documentResponsable ? <Text style={styles.error}>{errors.documentResponsable}</Text> : null}
+                <ImagePickerScreen title="Anexar RG do responsável legal" insertFile={setFileDocumentsResponse} fileParams={form1Data.documentResponsable} />
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <ButtomBackCustom value={stack} setNext={handleBackClick} />
                     <ButtomNextCustom value={stack} setNext={handleNextClick3} />
@@ -333,9 +364,11 @@ export const FormCompany = ({ replaceScreen, item }: formCompany) => {
         return (
             <View>
                 <Text style={styles.textEnd}>Pronto! Chegamos no final, agora é só anexar os documentos necessários.</Text>
+                {errors.documentoCompany ? <Text style={styles.error}>{errors.documentoCompany}</Text> : null}
+                <ImagePickerScreen title="Anexar documento CNPJ (Cadastro Nacional da Pessoa Jurídica) ou documento equivalente de registro da empresa." insertFile={setFileDocumentsCompany} fileParams={form1Data.documentoCompany} />
 
-                <ImagePickerScreen />
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+
 
                     <ButtomBackCustom value={stack} setNext={handleBackClick} />
                     <Button icon="check" textColor="#fff" style={{ borderRadius: 8 }} buttonColor={"#8fc57b"} onPress={submitForm}>Salvar</Button>
@@ -346,15 +379,27 @@ export const FormCompany = ({ replaceScreen, item }: formCompany) => {
     };
 
     const submitForm = () => {
-        if (item?.id) {
-            const data = { ...form1Data, id: item?.id }
-            dispatch(editData(data))
-            setModalVisible(true)
+        const newErrors = { ...errors };
+        console.log(errors)
+        let hasError = false;
+        if (form1Data.documentoCompany === null) {
+            newErrors.documentoCompany = "*Anexo CNPJ obrigatório";
+            hasError = true;
         } else {
-            const id = Math.floor(Math.random() * 1999);
-            const data = { ...form1Data, id: id }
-            dispatch(setData(data))
-            setModalVisible(true)
+            newErrors.documentoCompany = "";
+        }
+        setErrors(newErrors);
+        if (!hasError) {
+            if (item?.id) {
+                const data = { ...form1Data, id: item?.id }
+                dispatch(editData(data))
+                setModalVisible(true)
+            } else {
+                const id = Math.floor(Math.random() * 1999);
+                const data = { ...form1Data, id: id }
+                dispatch(setData(data))
+                setModalVisible(true)
+            }
         }
 
     }
@@ -369,7 +414,7 @@ export const FormCompany = ({ replaceScreen, item }: formCompany) => {
                 {stack === 3 && stackForm3()}
                 {stack === 4 && stackForm4()}
             </ScrollView>
-            <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle="Cadastro realizado com sucesso." titleButton="Entendi" />
+            <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle={form1Data.documentoCompany ? "Cadastro editado com sucesso." : "Cadastro realizado com sucesso."} titleButton="Entendi" onCloseModal={() => setModalVisible(!modalVisible)} />
         </View>
     );
 };
