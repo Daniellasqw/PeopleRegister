@@ -4,6 +4,7 @@ import * as MediaLibrary from 'expo-media-library';
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { extractPhraseAfterThirdHyphen } from '~/utils/masks';
 import { Doc } from '../dtos';
 import { ModalCustom } from './modal-custom';
 
@@ -63,7 +64,7 @@ export const ShowImagePicker: React.FC<ImagePickerProps> = ({ file, title }) => 
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.Button} onPress={showImageModal} disabled={!file?.fileName}>
-                <Text style={styles.titlePhoto}>{file?.fileName ?? "Imagem documento"}</Text>
+                <Text style={styles.titlePhoto}>{extractPhraseAfterThirdHyphen(file?.fileName) ?? "Imagem documento"}</Text>
             </TouchableOpacity>
             <Text style={styles.subtitlePhoto}>{title}</Text>
             <View style={styles.containerButton}>

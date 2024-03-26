@@ -3,6 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { extractPhraseAfterThirdHyphen } from '~/utils/masks';
 import { Doc } from '../dtos';
 import { ModalCustom } from './modal-custom';
 
@@ -102,7 +103,7 @@ export const ImagePickerScreen = ({ title, insertFile, fileParams }: ImagePicker
     return (
         <View style={file ? [styles.container, styles.hasFile] : styles.container}>
             <TouchableOpacity style={styles.Button} onPress={showImageModal} disabled={file?.fileName ? false : true}>
-                <Text style={styles.titlePhoto}>{file?.fileName ?? title ?? "Imagem documento"}</Text>
+                <Text style={styles.titlePhoto}>{extractPhraseAfterThirdHyphen(file?.fileName) ?? title ?? "Imagem documento"}</Text>
             </TouchableOpacity>
             <Text style={styles.subtitlePhoto}>{file?.fileName ? "Documento Anexado" : "Envie arquivos JPG"}</Text>
             <View style={styles.containerButton}>

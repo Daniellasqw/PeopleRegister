@@ -23,7 +23,7 @@
     "icon": "./assets/icon-logo2.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/icon-logo.png",
+      "image": "./assets/icon-logo-initial.png",
       "resizeMode": "contain",
       "backgroundColor": "#858585"
     },
@@ -36,7 +36,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon-logo.png",
+        "foregroundImage": "./assets/icon-logo-initial.png",
         "backgroundColor": "#858585"
       },
       "package": "com.daniellaa.PeopleRegister",
