@@ -45,16 +45,17 @@ const styles = StyleSheet.create({
         borderTopStartRadius: 20
     },
     navItem: {
-        width: 50,
+        flex: 1,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: 'transparent',
+        margin: 5
     },
     activeNavItem: {
         position: 'relative',
         bottom: 10,
-        borderRadius: 40,
+        borderRadius: 8,
         backgroundColor: '#7d7f9e',
         borderLeftWidth: 5,
         borderColor: "#5c5e75",

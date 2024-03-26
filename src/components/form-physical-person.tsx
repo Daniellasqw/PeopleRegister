@@ -235,7 +235,7 @@ export const FormPhysicalPerson = ({ replaceScreen, item }: formPerson) => {
             >
                 {stack === 1 && stackForm1()}
                 {stack === 2 && stackForm2()}
-                <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle={form1Data.documentoPerson ? "Cadastro editado com sucesso." : "Cadastro realizado com sucesso."} titleButton="Entendi" onCloseModal={() => setModalVisible(!modalVisible)} />
+                <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle={item?.documentoPerson ? "Cadastro editado com sucesso." : "Cadastro realizado com sucesso."} titleButton="Entendi" onCloseModal={() => setModalVisible(!modalVisible)} />
             </ScrollView>
         </View>
     );

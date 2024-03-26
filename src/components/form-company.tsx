@@ -92,6 +92,7 @@ export const FormCompany = ({ replaceScreen, item }: formCompany) => {
 
 
     });
+    console.log("form1Data.documentoCompany", form1Data.documentoCompany)
 
     const setFileDocumentsCompany = (value: Doc | null) => {
         const newForm1Data = { ...form1Data, ["documentoCompany"]: value };
@@ -414,7 +415,7 @@ export const FormCompany = ({ replaceScreen, item }: formCompany) => {
                 {stack === 3 && stackForm3()}
                 {stack === 4 && stackForm4()}
             </ScrollView>
-            <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle={form1Data.documentoCompany ? "Cadastro editado com sucesso." : "Cadastro realizado com sucesso."} titleButton="Entendi" onCloseModal={() => setModalVisible(!modalVisible)} />
+            <ModalCustom onChange={replaceScreen} visible={modalVisible} title="Sucesso" subtitle={item?.documentoCompany ? "Cadastro editado com sucesso." : "Cadastro realizado com sucesso."} titleButton="Entendi" onCloseModal={() => setModalVisible(!modalVisible)} />
         </View>
     );
 };

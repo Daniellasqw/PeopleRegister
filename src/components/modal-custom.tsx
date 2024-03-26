@@ -31,7 +31,7 @@ export const ModalCustom = ({ onChange, visible, titleButton, title, subtitle, d
                         <View style={styles.buttonContainer}>
                             {
                                 downloadFileButton && (
-                                    <TouchableOpacity onPress={downloadFileButton} style={styles.button}>
+                                    <TouchableOpacity onPress={downloadFileButton} style={[styles.button, { borderBottomWidth: 1, borderBottomColor: "#fff" }]}>
                                         <Text style={styles.modalTextButton}>{titleButton ? titleButton : 'Baixar arquivo'}</Text>
                                     </TouchableOpacity>
                                 )

@@ -1,18 +1,18 @@
-import { StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
-import { Divider, Icon, Text } from "react-native-paper"
-import { TitleOrSubtitle } from "~/src/components/title_subtitle";
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { EvilIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { ModalCustom } from "~/src/components/modal-custom";
 import { useState } from "react";
+import { StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { Divider, Text } from "react-native-paper";
+import { ModalCustom } from "~/src/components/modal-custom";
+import { TitleOrSubtitle } from "~/src/components/title_subtitle";
 
 export const CardUser = ({ item, deleteItem }: { item: any, deleteItem: (id: any) => void }) => {
   const [modalVisible, setModalVisible] = useState(false);
-const delItem = () =>{
-  deleteItem(item.id)
-setModalVisible(!modalVisible)
-}
+  const delItem = () => {
+    deleteItem(item.id)
+    setModalVisible(!modalVisible)
+  }
   return (
     <View style={styles.cardUser}>
       <Swipeable
@@ -35,10 +35,10 @@ setModalVisible(!modalVisible)
         }}
         renderLeftActions={() => {
           return (
-            <TouchableWithoutFeedback onPress={()=>router.navigate({
-              pathname:"edit",
-              params:{
-                id:item.id
+            <TouchableWithoutFeedback onPress={() => router.navigate({
+              pathname: "edit",
+              params: {
+                id: item.id
               }
             })}>
               <View style={styles.swipeContainer}>
@@ -54,10 +54,10 @@ setModalVisible(!modalVisible)
           );
         }}
       >
-        <TouchableOpacity style={styles.userInfo} onPress={()=>router.navigate({
-          pathname:"details",
-          params:{
-            id:item.id
+        <TouchableOpacity style={styles.userInfo} onPress={() => router.navigate({
+          pathname: "details",
+          params: {
+            id: item.id
           }
         })}>
           {item.name && <TitleOrSubtitle title="Nome" subtitle={item.name} sizetitle={12} sizeSubtitle={14} />}
@@ -72,7 +72,7 @@ setModalVisible(!modalVisible)
 
         </TouchableOpacity>
       </Swipeable>
-      <ModalCustom onChange={delItem} visible={modalVisible} title="Atenção!" subtitle="Tem certeza que deseja excluir esse cadastro?" titleButton="Excluir"/>
+      <ModalCustom onChange={delItem} visible={modalVisible} title="Atenção!" subtitle="Tem certeza que deseja excluir esse cadastro?" titleButton="Excluir" onCloseModal={() => setModalVisible(!modalVisible)} />
     </View>
   )
 }

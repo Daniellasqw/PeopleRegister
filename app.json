@@ -42,7 +42,10 @@
       "package": "com.daniellaa.PeopleRegister",
       "permissions": [
         "CAMERA",
-        "WRITE_EXTERNAL_STORAGE"
+        "AUDIO_RECORDING",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "MEDIA_LIBRARY"
       ]
     },
     "extra": {
