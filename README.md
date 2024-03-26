@@ -5,8 +5,6 @@ O People Register é um aplicativo de registro de pessoas que oferece uma soluç
 # Recursos Principais
 Cadastro de Pessoas: Registre informações detalhadas sobre indivíduos, incluindo nome, foto, informações de contato e muito mais.
 
-Anotações e Atividades: Mantenha um registro de notas, interações e atividades relacionadas a cada pessoa, facilitando o acompanhamento de eventos importantes e comunicações anteriores.
-
 Pesquisa Avançada: Localize rapidamente pessoas específicas através de filtros  pelo nome ou razão social.
 
 # Autor
