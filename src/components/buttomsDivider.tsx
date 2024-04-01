@@ -3,15 +3,15 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { OnchangeType } from '~/src/dtos';
 
-const ButtomsDivider = ({onChangeForm}:OnchangeType) => {
+const ButtomsDivider = ({ onChangeForm }: OnchangeType) => {
   const [value, setValue] = React.useState('fisica');
-  const setInfo=(value:string)=>{
+  const setInfo = (value: string) => {
     setValue(value)
-    if(onChangeForm){
-        onChangeForm(value)
+    if (onChangeForm) {
+      onChangeForm(value)
     }
   }
- 
+
   return (
     <View style={styles.buttomContainer}>
       <TouchableOpacity style={value == "fisica" ? [styles.buttomLeft, styles.buttomOn] : styles.buttomLeft} onPress={() => setInfo("fisica")}>
@@ -33,11 +33,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginHorizontal: 15,
     marginTop: 20,
-   
+
   },
   buttomLeft: {
     flex: 1,
-    borderBottomLeftRadius:5,
+    borderBottomLeftRadius: 5,
     borderTopLeftRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
@@ -53,22 +53,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 40,
     backgroundColor: "#e7e8ed",
-   
+
 
   },
   textOn: {
-    color:"#fff",
+    color: "#fff",
     fontWeight: "bold"
-   },
-   textOff: {
-     color:"#000",
-     fontFamily:"Raleway",
-   },
+  },
+  textOff: {
+    color: "#000",
+    fontFamily: "Raleway",
+  },
   buttomOn: {
     flex: 1,
     backgroundColor: "#7d7f9e",
-    fontFamily:"Raleway",
-    
+    fontFamily: "Raleway",
+
   }
 
 })
