@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        height: Dimensions.get("screen").height / 3,
+        height: Dimensions.get("screen").height / 5,
         backgroundColor: '#fff',
         elevation: 5,
     },

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { Home } from '~/src/screens/home/home';
@@ -32,5 +33,7 @@ export default function InitialPage() {
     return <ActivityIndicator color='#7d7f9e' size={40} />;
   }
 
-  return initialRouter ? <Home /> : <Welcome />;
+  return (<SafeAreaView style={{ flex: 1 }}>
+    {initialRouter ? <Home /> : <Welcome />}
+  </SafeAreaView>);
 }
