@@ -2,9 +2,9 @@
   "name": "PeopleRegister",
   "version": "1.0.0",
   "scripts": {
-    "android": "expo start --android",
+    "android": "expo run:android",
     "format": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
-    "ios": "expo start --ios",
+    "ios": "expo run:ios",
     "start": "expo start",
     "web": "expo start --web"
   },
@@ -15,7 +15,7 @@
     "@reduxjs/toolkit": "^2.2.2",
     "expo": "~50.0.5",
     "expo-constants": "~15.4.5",
-    "expo-dev-client": "~3.3.11",
+    "expo-dev-client": "~3.3.12",
     "expo-font": "~11.10.3",
     "expo-image": "^1.10.6",
     "expo-image-picker": "^14.7.1",
